@@ -1,0 +1,14 @@
+{
+  "camera": 0,
+  "threshold": 0.80,
+  "stable_frames": 4,
+  "toggle_hotkey": "<f8>",
+  "gestures": {
+    "quas":    {"key": "q", "hands": 2, "repeat_ms": 450, "hint": "Q: triangle - index tips touch on top, thumbs touch below"},
+    "wex":     {"key": "w", "hands": 2, "repeat_ms": 450, "hint": "W: two fists side by side, both thumbs up"},
+    "exort":   {"key": "e", "hands": 2, "repeat_ms": 450, "hint": "E: index fingers horizontal, tips touch, thumbs up"},
+    "invoke":  {"key": "r", "hands": 2, "repeat_ms": 0,   "hint": "R: palms together, fingers up (steeple)"},
+    "spell_d": {"key": "d", "hands": 1, "repeat_ms": 0,   "hint": "D: one hand, index finger up"},
+    "spell_f": {"key": "f", "hands": 1, "repeat_ms": 0,   "hint": "F: one hand, two fingers up (V)"}
+  }
+}
