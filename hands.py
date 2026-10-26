@@ -148,6 +148,19 @@ def augment(X, y, rng, copies=4):
         S[:, 154], S[:, 155] = X[one][:, 155], X[one][:, 154]
         out.append(S)
         labels.append(y[one])
+
+        # Зеркалим однорукие кадры: правая рука -> левая и наоборот.
+        # Отражение по горизонтали = смена знака x у точек кисти.
+        M = X[one].copy()
+        for sl in (slice(0, 63), slice(63, 126)):
+            pts = M[:, sl].reshape(-1, 21, 3)
+            pts[..., 0] *= -1
+            M[:, sl] = pts.reshape(-1, 63)
+        M2 = M.copy()
+        M2[:, 0:63], M2[:, 63:126] = M[:, 63:126], M[:, 0:63]
+        M2[:, 154], M2[:, 155] = M[:, 155], M[:, 154]
+        out += [M, M2]
+        labels += [y[one], y[one]]
     return np.concatenate(out), np.concatenate(labels)
 
 
