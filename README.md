@@ -1,10 +1,11 @@
-<div align="center">
-
-https://github.com/user-attachments/assets/9d406dd6-4915-4d4a-96cd-1b9d0fe17908
-
 # Invoker CV 
 
 ### Играй за Invoker'а в Dota 2 жестами рук
+
+
+<div align="center">
+
+https://github.com/user-attachments/assets/9d406dd6-4915-4d4a-96cd-1b9d0fe17908
 
 Покажи жест в вебку — нейросеть найдёт руки, распознает позу<br>
 и нажмёт Q / W / E / R / D / F за тебя. Никаких макросов: один жест — одна клавиша.
