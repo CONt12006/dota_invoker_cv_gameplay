@@ -1,8 +1,30 @@
-# dota_invoker_cv_gameplay
+<div align="center">
 
-Управление Invoker'ом в Dota 2 жестами рук с вебки. Камера → MediaPipe Hands → MLP-классификатор → нажатие клавиши.
 
-Одно срабатывание жеста = одно нажатие одной клавиши. Никаких автоматических комбо и макросов: каждую сферу и каждый каст показываешь сам.
+# Invoker CV 🪄
+
+### Играй за Invoker'а в Dota 2 жестами рук
+
+Покажи жест в вебку — нейросеть найдёт руки, распознает позу<br>
+и нажмёт Q / W / E / R / D / F за тебя. Никаких макросов: один жест — одна клавиша.
+
+<br>
+
+<img src="https://img.shields.io/badge/Dota_2-Invoker-B22222?style=for-the-badge&logo=steam&logoColor=white" alt="Dota 2 Invoker">
+
+<br><br>
+
+<img src="https://img.shields.io/badge/жесты-6_+_none-orange?style=flat-square" alt="gestures">
+<img src="https://img.shields.io/badge/Python-3.10–3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+<img src="https://img.shields.io/badge/OpenCV-4.11-5C3EE8?style=flat-square&logo=opencv&logoColor=white" alt="OpenCV">
+<img src="https://img.shields.io/badge/MediaPipe-Hands-0097A7?style=flat-square&logo=google&logoColor=white" alt="MediaPipe">
+<img src="https://img.shields.io/badge/scikit--learn-MLP-F7931E?style=flat-square&logo=scikitlearn&logoColor=white" alt="scikit-learn">
+<img src="https://img.shields.io/badge/NumPy-1.26-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
+<img src="https://img.shields.io/badge/Windows-pydirectinput-0078D6?style=flat-square&logo=windows&logoColor=white" alt="Windows">
+
+</div>
+
+---
 
 ## Жесты
 
