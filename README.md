@@ -1,7 +1,7 @@
 <div align="center">
 
 
-# Invoker CV 🪄
+# Invoker CV 
 
 ### Играй за Invoker'а в Dota 2 жестами рук
 
