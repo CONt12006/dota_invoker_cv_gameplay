@@ -1,14 +1,19 @@
+<p align="center">
+  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/English-1f6feb?style=for-the-badge"></a>
+  <a href="README.ru.md"><img alt="Русский" src="https://img.shields.io/badge/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9-555555?style=for-the-badge"></a>
+</p>
+
 # Invoker CV 
 
-### Играй за Invoker'а в Dota 2 жестами рук
+### Play Invoker in Dota 2 with hand gestures
 
 
 <div align="center">
 
 https://github.com/user-attachments/assets/9d406dd6-4915-4d4a-96cd-1b9d0fe17908
 
-Покажи жест в вебку — нейросеть найдёт руки, распознает позу<br>
-и нажмёт Q / W / E / R / D / F за тебя. Никаких макросов: один жест — одна клавиша.
+Show a gesture to your webcam: the neural network finds your hands, recognises the pose<br>
+and presses Q / W / E / R / D / F for you. No macros: one gesture, one key.
 
 <br>
 
@@ -16,7 +21,7 @@ https://github.com/user-attachments/assets/9d406dd6-4915-4d4a-96cd-1b9d0fe17908
 
 <br><br>
 
-<img src="https://img.shields.io/badge/жесты-6_+_none-orange?style=flat-square" alt="gestures">
+<img src="https://img.shields.io/badge/gestures-6_+_none-orange?style=flat-square" alt="gestures">
 <img src="https://img.shields.io/badge/Python-3.10–3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/OpenCV-4.11-5C3EE8?style=flat-square&logo=opencv&logoColor=white" alt="OpenCV">
 <img src="https://img.shields.io/badge/MediaPipe-Hands-0097A7?style=flat-square&logo=google&logoColor=white" alt="MediaPipe">
@@ -28,33 +33,33 @@ https://github.com/user-attachments/assets/9d406dd6-4915-4d4a-96cd-1b9d0fe17908
 
 ---
 
-## Жесты
+## Gestures
 
-| Жест      | Клавиша | Руки | Как показать                                                   | Автоповтор |
-|-----------|:-------:|:----:|----------------------------------------------------------------|:----------:|
-| `quas`    | `Q`     | 2    | Треугольник: указательные касаются сверху, большие — снизу      | 450 мс     |
-| `wex`     | `W`     | 2    | Два кулака рядом, оба больших пальца вверх                      | 450 мс     |
-| `exort`   | `E`     | 2    | Указательные горизонтально, кончики касаются, большие вверх     | 450 мс     |
-| `invoke`  | `R`     | 2    | Ладони вместе, пальцы вверх («домик»)                           | —          |
-| `spell_d` | `D`     | 1    | Одна рука, указательный палец вверх                             | —          |
-| `spell_f` | `F`     | 1    | Одна рука, два пальца вверх (V)                                 | —          |
-| `none`    | —       | —    | Руки опущены / случайные движения / переходы между жестами       | —          |
+| Gesture   | Key     | Hands | How to show it                                                  | Auto-repeat |
+|-----------|:-------:|:-----:|-----------------------------------------------------------------|:-----------:|
+| `quas`    | `Q`     | 2     | Triangle: index fingers touch at the top, thumbs at the bottom  | 450 ms      |
+| `wex`     | `W`     | 2     | Two fists side by side, both thumbs up                          | 450 ms      |
+| `exort`   | `E`     | 2     | Index fingers horizontal, tips touching, thumbs up              | 450 ms      |
+| `invoke`  | `R`     | 2     | Palms together, fingers up ("roof")                             | —           |
+| `spell_d` | `D`     | 1     | One hand, index finger up                                       | —           |
+| `spell_f` | `F`     | 1     | One hand, two fingers up (V)                                    | —           |
+| `none`    | —       | —     | Hands down / random movements / transitions between gestures    | —           |
 
-Пока держишь сферу (`quas`/`wex`/`exort`), клавиша повторяется каждые `repeat_ms`. Чтобы нажать тот же жест ещё раз без повтора — опусти руки или смени жест.
+While you hold an orb (`quas`/`wex`/`exort`), the key repeats every `repeat_ms`. To press the same gesture again without the repeat, lower your hands or switch gestures.
 
-## Как это работает
+## How it works
 
-1. **`hands.py`** — MediaPipe Hands находит до двух рук, из кадра собирается вектор на 156 признаков:
-   - форма левой и правой кисти (2 × 63) — точки относительно запястья, нормированные по размеру ладони, поэтому не зависят от положения руки в кадре и расстояния до камеры;
-   - положение правого запястья относительно левого (3);
-   - попарные расстояния между кончиками пальцев двух рук (25) — чтобы ловить «пальцы касаются»;
-   - флаги «рука найдена» (2).
-2. **`train.py`** — `StandardScaler` + `MLPClassifier(128, 64)` из scikit-learn. Обучение за секунды на CPU. Аугментации: шум, масштаб, поворот кисти ±10°, перестановка и зеркалирование одноруких кадров (MediaPipe иногда путает левую и правую руку).
-3. **`controller.py`** — жест засчитывается, если держится `stable_frames` кадров подряд с уверенностью ≥ `threshold`. Двуручные жесты не срабатывают, если в кадре одна рука. Нажатия идут через `pydirectinput` (SendInput со скан-кодами — игра их видит).
+1. **`hands.py`**: MediaPipe Hands finds up to two hands, and each frame becomes a 156-feature vector:
+   - left and right hand shape (2 × 63): landmarks relative to the wrist, normalised by palm size, so they do not depend on hand position in the frame or distance to the camera;
+   - right wrist position relative to the left one (3);
+   - pairwise distances between the fingertips of both hands (25), to catch "fingers touching";
+   - "hand found" flags (2).
+2. **`train.py`**: `StandardScaler` + `MLPClassifier(128, 64)` from scikit-learn. Trains in seconds on CPU. Augmentations: noise, scaling, ±10° hand rotation, swapping and mirroring of one-handed frames (MediaPipe sometimes confuses left and right hands).
+3. **`controller.py`**: a gesture fires when it is held for `stable_frames` consecutive frames with confidence ≥ `threshold`. Two-handed gestures do not fire if only one hand is in the frame. Key presses go through `pydirectinput` (SendInput with scan codes, which the game sees).
 
-## Установка
+## Installation
 
-Нужен Python 3.10–3.12 (под него собраны `mediapipe 0.10.21` и `numpy 1.26`) и вебка.
+You need Python 3.10–3.12 (`mediapipe 0.10.21` and `numpy 1.26` are built for it) and a webcam.
 
 ```bash
 git clone https://github.com/CONt12006/dota_invoker_cv_gameplay.git
@@ -67,66 +72,66 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-> Нажатия в игру отправляются через `pydirectinput`, он работает только на **Windows**. На Linux контроллер можно запускать с `--dry-run` (распознавание без нажатий).
+> Key presses are sent to the game via `pydirectinput`, which works on **Windows** only. On Linux the controller can be run with `--dry-run` (recognition without key presses).
 
-## Быстрый старт
+## Quick start
 
-В репозитории уже есть записанные жесты (`data/dota_gestures/`) и обученная модель (`models/dota_gestures.joblib`), так что можно сразу запускать:
+The repository already contains recorded gestures (`data/dota_gestures/`) and a trained model (`models/dota_gestures.joblib`), so you can run it right away:
 
 ```bash
-python controller.py --dry-run   # проверить распознавание, ничего не нажимает
-python controller.py             # боевой режим, стартует на ПАУЗЕ
+python controller.py --dry-run   # check recognition, presses nothing
+python controller.py             # live mode, starts PAUSED
 ```
 
-- **F8** (глобально) или **P** в окне — включить / поставить на паузу.
-- **Q** / **Esc** в окне — выход.
-- `--armed` — стартовать сразу включённым.
-- `--camera N` — выбрать другую камеру.
+- **F8** (global) or **P** in the window: enable / pause.
+- **Q** / **Esc** in the window: quit.
+- `--armed`: start already enabled.
+- `--camera N`: choose another camera.
 
-В Dota поставь режим **«Оконный без рамки» (borderless)** — тогда окно контроллера будет висеть поверх игры.
+In Dota, set the **borderless window** mode so the controller window stays on top of the game.
 
-## Свои жесты
+## Your own gestures
 
-Модель обучена на моих руках и моей камере — у тебя лучше всего будет работать, если записать свои.
+The model is trained on my hands and my camera, so it works best for you if you record your own.
 
-### 1. Запись
+### 1. Recording
 
 ```bash
-python record.py              # по умолчанию сессия 6 секунд
+python record.py              # 6-second sessions by default
 python record.py --seconds 10
 ```
 
-| Клавиша     | Действие                                      |
+| Key         | Action                                        |
 |-------------|-----------------------------------------------|
-| `0`–`9`     | выбрать жест (`0` — `none`)                   |
-| `n` / `p`   | следующий / предыдущий жест                   |
-| `Space`     | записать сессию (1 с подготовки + запись)     |
-| `u`         | удалить последнюю сессию                      |
-| `q` / `Esc` | выход                                         |
+| `0`–`9`     | select a gesture (`0` is `none`)              |
+| `n` / `p`   | next / previous gesture                       |
+| `Space`     | record a session (1 s countdown + recording)  |
+| `u`         | delete the last session                       |
+| `q` / `Esc` | quit                                          |
 
-Советы:
+Tips:
 
-- во время записи держи жест и слегка меняй его: поворачивай кисть, двигай ближе/дальше, выше/ниже;
-- для `none` опускай руки, чеши нос, показывай переходы между жестами — это учит модель **не** нажимать клавиши случайно;
-- желательно 300+ кадров и 3+ сессии на каждый жест.
+- while recording, hold the gesture and vary it slightly: rotate the hand, move closer/farther, higher/lower;
+- for `none`, lower your hands, scratch your nose, show transitions between gestures: this teaches the model **not** to press keys by accident;
+- aim for 300+ frames and 3+ sessions per gesture.
 
-Каждая сессия сохраняется в `data/dota_gestures/<жест>/<timestamp>.npy` (массив `кадры × 156`).
+Each session is saved to `data/dota_gestures/<gesture>/<timestamp>.npy` (an array of `frames × 156`).
 
-### 2. Обучение
+### 2. Training
 
 ```bash
 python train.py
 ```
 
-Скрипт печатает отчёт по качеству на **незнакомых сессиях** (`GroupKFold` по записям — соседние кадры одной сессии почти одинаковые и завысили бы точность), матрицу ошибок и сохраняет модель в `models/dota_gestures.joblib`.
+The script prints a quality report on **unseen sessions** (`GroupKFold` by recording: adjacent frames of one session are nearly identical and would inflate accuracy), a confusion matrix, and saves the model to `models/dota_gestures.joblib`.
 
-### 3. Запуск
+### 3. Running
 
 ```bash
 python controller.py
 ```
 
-## Настройка — `config.json`
+## Configuration: `config.json`
 
 ```json
 {
@@ -140,32 +145,32 @@ python controller.py
 }
 ```
 
-| Поле            | Что делает                                                                  |
-|-----------------|-----------------------------------------------------------------------------|
-| `camera`        | индекс вебки                                                                |
-| `threshold`     | минимальная уверенность модели, чтобы кадр засчитался                       |
-| `stable_frames` | сколько кадров подряд жест должен держаться (больше — надёжнее, но медленнее) |
-| `toggle_hotkey` | глобальная горячая клавиша паузы (формат `pynput`)                          |
-| `key`           | какую клавишу жать                                                          |
-| `hands`         | сколько рук нужно жесту                                                     |
-| `repeat_ms`     | интервал автоповтора при удержании, `0` — без повтора                       |
-| `hint`          | подсказка в окне записи                                                     |
+| Field           | What it does                                                                  |
+|-----------------|-------------------------------------------------------------------------------|
+| `camera`        | webcam index                                                                  |
+| `threshold`     | minimum model confidence for a frame to count                                 |
+| `stable_frames` | how many consecutive frames a gesture must be held (more is safer but slower) |
+| `toggle_hotkey` | global pause hotkey (`pynput` format)                                         |
+| `key`           | which key to press                                                            |
+| `hands`         | how many hands the gesture needs                                              |
+| `repeat_ms`     | auto-repeat interval while held, `0` for no repeat                            |
+| `hint`          | hint shown in the recording window                                            |
 
-Чтобы добавить новый жест — допиши его в `gestures`, запиши в `record.py` и переобучи `train.py`.
+To add a new gesture, add it to `gestures`, record it with `record.py` and retrain with `train.py`.
 
-## Структура
+## Structure
 
 ```
 .
-├── hands.py          # детекция рук, признаки, аугментации, отрисовка
-├── record.py         # запись датасета с вебки
-├── train.py          # обучение и валидация MLP
-├── controller.py     # жест -> нажатие клавиши
-├── config.json       # жесты, клавиши, пороги
-├── data/dota_gestures/   # записанные сессии (.npy)
+├── hands.py          # hand detection, features, augmentations, drawing
+├── record.py         # dataset recording from the webcam
+├── train.py          # MLP training and validation
+├── controller.py     # gesture -> key press
+├── config.json       # gestures, keys, thresholds
+├── data/dota_gestures/   # recorded sessions (.npy)
 └── models/dota_gestures.joblib
 ```
 
-## Стек
+## Stack
 
 Python · OpenCV · MediaPipe Hands · NumPy · scikit-learn · pydirectinput · pynput
